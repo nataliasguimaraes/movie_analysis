@@ -1,0 +1,10 @@
+from pyspark.sql import SparkSession
+
+# Crie a sessão Spark
+spark = SparkSession.builder.getOrCreate()
+
+# Carregue os dados JSON e infira o esquema automaticamente
+dataframe = spark.read.option("multiline", "true").json("s3://natalias-s3-bucket/Raw/Local/JSON/Movies/2023/05/09/*")
+
+# Escreva os dados como Parquet
+dataframe.write.parquet("s3://natalias-s3-bucket/Trusted/Parquet/Movies/JSON/")
